@@ -62,24 +62,6 @@ A [Vite](https://vitejs.dev/) powered WebExtension ([Chrome](https://developer.c
 - [esno](https://github.com/antfu/esno) - TypeScript / ESNext node runtime powered by esbuild
 - [npm-run-all](https://github.com/mysticatea/npm-run-all) - Run multiple npm-scripts in parallel or sequential
 
-## Use the Template
-
-### GitHub Template
-
-[Create a repo from this template on GitHub](https://github.com/antfu/vitesse-webext/generate).
-
-### Clone to local
-
-If you prefer to do it manually with the cleaner git history
-
-> If you don't have pnpm installed, run: npm install -g pnpm
-
-```bash
-npx degit antfu/vitesse-webext my-webext
-cd my-webext
-pnpm i
-```
-
 ## Usage
 
 ### Folders
@@ -113,7 +95,3 @@ And then pack files under `extension`.
 ![](https://user-images.githubusercontent.com/11247099/127029137-6b5ad5db-76c4-4061-86ff-489911a8adfb.png)
 
 This template is originally made for the [volta.net](https://volta.net) browser extension.
-
-## Variations
-
-This is a variant of [Vitesse](https://github.com/antfu/vitesse), check out the [full variations list](https://github.com/antfu/vitesse#variations).

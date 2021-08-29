@@ -31,6 +31,7 @@
     "cross-env": "^7.0.3",
     "crx": "^5.0.1",
     "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
     "esno": "^0.9.1",
     "fs-extra": "^10.0.0",
     "kolorist": "^1.5.0",
@@ -46,5 +47,12 @@
     "vue-demi": "^0.11.3",
     "webext-bridge": "^4.1.1",
     "webextension-polyfill": "^0.8.0"
+  },
+  "dependencies": {
+    "@vueuse/rxjs": "^6.0.0",
+    "consola": "^2.15.3",
+    "fp-ts": "^2.11.1",
+    "fp-ts-rxjs": "^0.6.15",
+    "rxjs": "^7.3.0"
   }
 }
