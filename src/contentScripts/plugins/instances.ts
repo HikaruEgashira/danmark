@@ -4,16 +4,9 @@
 import { pipe } from "fp-ts/lib/function";
 import { merge } from "rxjs";
 import type { Comment } from "./commentObserver";
-import { mockObserver } from "./mockComment";
+import { mockObserver } from "./mock";
 
-// const timer = (stack: Comment[]) => {
-//   setTimeout(() => {
-//     stack.shift();
-//   }, 20000);
-// };
-
+// 3. pluginを追加する
 export const commentObserver = pipe(
-  merge<[Comment]>(mockObserver)
-
-  // observable.filter(() => true) // 不適切なコメントを除外
+  merge<[Comment]>(mockObserver /** 作成したプラグインはここに追加する */)
 );
