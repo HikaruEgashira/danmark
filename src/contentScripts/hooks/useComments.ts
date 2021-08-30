@@ -1,9 +1,9 @@
 import { useObservable } from "@vueuse/rxjs";
-import { combineLatest, interval, Observable, scan, startWith } from "rxjs";
+import { combineLatest, interval, Observable, scan } from "rxjs";
 import { observable } from "fp-ts-rxjs";
 import { pipe } from "fp-ts/lib/function";
-import { commentObserver } from "./plugins/instances";
-import type { Comment } from "./plugins/commentObserver";
+import { commentObserver } from "../plugins/instances";
+import type { Comment } from "../plugins/commentObserver";
 
 export interface StyledComment extends Comment {
   top: number;

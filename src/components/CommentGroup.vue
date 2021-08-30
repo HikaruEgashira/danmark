@@ -7,7 +7,7 @@
 </template>
 <script lang="ts" setup>
 import type { PropType } from "vue";
-import type { StyledComment } from "~/contentScripts/hooks";
+import type { StyledComment } from "~/contentScripts/hooks/useComments";
 
 defineProps({
   commentList: {

@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import 'virtual:windi.css'
-import { useComments } from './hooks';
+import { useComments } from './hooks/useComments';
 
 const customClass = ref("font-bold opacity-60");
 const commentList = useComments();
