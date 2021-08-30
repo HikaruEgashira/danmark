@@ -21,9 +21,9 @@ const commentList = [
 
 // 1. Commentのインターフェイスに沿って値を整える
 const makeMockComment = (): Comment => {
-  const provider = "mock";
+  const name = "mock";
   const message = commentList[Math.floor(Math.random() * commentList.length)];
-  return makeComment(provider)(message);
+  return makeComment(name)(message);
 };
 
 // 2. Observable<Comment>を作成

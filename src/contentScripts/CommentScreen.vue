@@ -1,16 +1,7 @@
 <template>
-  <div
-    class="fixed top-0 w-full h-full pointer-events-none overflow-hidden whitespace-nowrap children:(bg-transparent shadow-transparent m-0 p-0 text-dark-500 dark:text-light-500)"
-    style="z-index: 2147483647;"
-  >
-    <div
-      v-for="comment in commentList"
-      :key="`comment-${comment.provider}-${comment.id}`"
-      class="absolute animate-nico text-2xl w-full"
-      :class="customClass"
-      :style="{ top: `${comment.top}vh` }"
-    >{{ comment.message }}</div>
-  </div>
+  <Field>
+    <CommentGroup :comment-list="commentList" :custom-class="customClass"></CommentGroup>
+  </Field>
 </template>
 
 <script setup lang="ts">

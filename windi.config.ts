@@ -8,17 +8,4 @@ export default defineConfig({
   extract: {
     include: [resolve(__dirname, "src/**/*.{vue,html}")],
   },
-  theme: {
-    extend: {
-      keyframes: {
-        nico: {
-          from: { transform: "translateX(100%)" },
-          to: { transform: "translateX(-100%)" },
-        },
-      },
-      animation: {
-        nico: "nico 20s linear",
-      },
-    },
-  },
 });

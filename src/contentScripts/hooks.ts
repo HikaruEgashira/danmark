@@ -1,32 +1,41 @@
 import { useObservable } from "@vueuse/rxjs";
-import { scan } from "rxjs";
+import { combineLatest, interval, Observable, scan, startWith } from "rxjs";
 import { observable } from "fp-ts-rxjs";
+import { pipe } from "fp-ts/lib/function";
 import { commentObserver } from "./plugins/instances";
 import type { Comment } from "./plugins/commentObserver";
 
 export interface StyledComment extends Comment {
   top: number;
+  fontSize: number;
+  visibleTime: number;
 }
 
-const getTop = () => Math.random() * 90 + 5;
-const makeStyledComment = (comment: Comment): StyledComment => ({
-  ...comment,
-  top: getTop(),
-});
+const makeStyledComment = (comment: Comment): StyledComment => {
+  const top = Math.random() * 90 + 5;
+  const fontSize = Math.random() * 10 + 10;
+  const visibleTime = fontSize;
+  return {
+    ...comment,
+    top,
+    fontSize,
+    visibleTime,
+  };
+};
 
-const filterOldComments = (CommentList: StyledComment[]) =>
-  CommentList.filter((comment) => Date.now() - comment.createdAt < 20 * 1000);
+const concat = <T>($: Observable<T>): Observable<T[]> =>
+  $.pipe(scan((acc: T[], curr: T) => [...acc, curr], []));
+const filterOldComments = (comments: StyledComment[]) =>
+  comments.filter((comment) => Date.now() - comment.createdAt < 15 * 1000);
 
-export const useComments = () =>
-  useObservable(
-    commentObserver.pipe(
-      scan(
-        (acc: StyledComment[], curr: Comment) => [
-          ...acc,
-          makeStyledComment(curr),
-        ],
-        []
-      ),
-      observable.map(filterOldComments)
-    )
-  );
+const styledCommentAll$ = pipe(
+  commentObserver,
+  observable.map(makeStyledComment),
+  concat
+);
+const filteredStyledComment$ = pipe(
+  combineLatest([styledCommentAll$, interval(1000)]),
+  observable.map(([comments]) => filterOldComments(comments))
+);
+
+export const useComments = () => useObservable(filteredStyledComment$);
