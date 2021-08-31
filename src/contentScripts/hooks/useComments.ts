@@ -1,9 +1,12 @@
 import { useObservable } from "@vueuse/rxjs";
 import { combineLatest, interval, Observable, scan } from "rxjs";
 import { observable } from "fp-ts-rxjs";
-import { pipe } from "fp-ts/lib/function";
 import { commentObserver } from "../plugins/instances";
-import type { Comment } from "../plugins/commentObserver";
+import type { Comment } from "../plugins/observer";
+
+/**
+ * Domains
+ */
 
 export interface StyledComment extends Comment {
   top: number;
@@ -12,8 +15,11 @@ export interface StyledComment extends Comment {
 }
 
 const makeStyledComment = (comment: Comment): StyledComment => {
-  const top = Math.random() * 90 + 5;
-  const fontSize = Math.random() * 10 + 10;
+  const randomRange = (min: number, max: number) =>
+    Math.random() * (max - min) + min;
+
+  const top = randomRange(5, 95);
+  const fontSize = randomRange(10, 20);
   const visibleTime = fontSize;
   return {
     ...comment,
@@ -23,19 +29,31 @@ const makeStyledComment = (comment: Comment): StyledComment => {
   };
 };
 
-const concat = <T>($: Observable<T>): Observable<T[]> =>
-  $.pipe(scan((acc: T[], curr: T) => [...acc, curr], []));
-const filterOldComments = (comments: StyledComment[]) =>
-  comments.filter((comment) => Date.now() - comment.createdAt < 15 * 1000);
+/**
+ * Hooks
+ */
+const ANIMATOIN_DURATION = 20;
+const INTERVAL = 5;
 
-const styledCommentAll$ = pipe(
-  commentObserver,
+const concat = <T>($: Observable<T>): Observable<T[]> =>
+  $.pipe(scan<T, T[]>((acc, curr) => [...acc, curr], []));
+const filterOldComments: (comments: StyledComment[]) => StyledComment[] = (
+  comments
+) =>
+  comments.filter((comment) => {
+    const now = Date.now();
+    const spend = now - comment.createdAt;
+    const lifeTime = (ANIMATOIN_DURATION - INTERVAL) * 1000;
+    return spend < lifeTime;
+  });
+
+const styledComments$ = commentObserver.pipe(
   observable.map(makeStyledComment),
   concat
 );
-const filteredStyledComment$ = pipe(
-  combineLatest([styledCommentAll$, interval(1000)]),
-  observable.map(([comments]) => filterOldComments(comments))
-);
+const comments$ = combineLatest([
+  styledComments$,
+  interval(INTERVAL * 1000),
+]).pipe(observable.map(([comments]) => filterOldComments(comments)));
 
-export const useComments = () => useObservable(filteredStyledComment$);
+export const useComments = () => useObservable(comments$);

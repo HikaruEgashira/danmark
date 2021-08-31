@@ -31,3 +31,9 @@ export const commentObserver = pipe(
 ```
 
 エラーがあれば型エラーが出ます。🔔
+
+## アーキテクチャ
+
+### content-script
+
+plugins(interface→plugin→instances)→hooks→viewmodel(*.vue)

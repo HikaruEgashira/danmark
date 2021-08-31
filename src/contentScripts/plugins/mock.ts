@@ -3,8 +3,8 @@
 
 import { observable } from "fp-ts-rxjs";
 import { interval, Observable } from "rxjs";
-import type { Comment } from "./commentObserver";
-import { CommentObserver, makeComment } from "./commentObserver";
+import type { Comment, CommentObserver } from "./observer";
+import { makeComment } from "./observer";
 
 const commentList = [
   "うぽつ",
@@ -27,8 +27,10 @@ const makeMockComment = (): Comment => {
 };
 
 // 2. Observable<Comment>を作成
-export const mockObserver: CommentObserver = new Observable((subscriber) => {
+const mockObserver: CommentObserver = new Observable((subscriber) => {
   const interval$ = interval(500);
   const comments$ = interval$.pipe(observable.map(makeMockComment));
   comments$.subscribe(subscriber);
 });
+
+export default mockObserver;

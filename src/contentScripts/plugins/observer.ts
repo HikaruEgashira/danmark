@@ -3,6 +3,10 @@
 
 import { Observable } from "rxjs";
 import { v4 as uuid } from "uuid";
+
+/**
+ * Domains
+ */
 export interface Comment {
   id: string;
   name: string;
@@ -18,5 +22,9 @@ export const makeComment =
     message,
     createdAt: Date.now(),
   });
+
+/**
+ * Observers
+ */
 
 export type CommentObserver = Observable<Comment>;
